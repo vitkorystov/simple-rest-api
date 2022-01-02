@@ -1,29 +1,36 @@
-# Getting Started
+# Описание проекта
 
-### Reference Documentation
+REST API проекта для обработки данных фондового рынка. 
 
-For further reference, please consider the following sections:
+В настоящий момент создано три типа ресурсов:
+- Тикеры (включает название тикера и его описание, например GAZP, SBER и пр.)
+- Таймфреймы (например D, H4, H1, 30m и пр.)
+- Биржевые данные (котировки, объемы, дата/время и пр.)
 
-* [Official Gradle documentation](https://docs.gradle.org)
-* [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.6.2/gradle-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/2.6.2/gradle-plugin/reference/html/#build-image)
-* [Spring Data JPA](https://docs.spring.io/spring-boot/docs/2.6.2/reference/htmlsingle/#boot-features-jpa-and-spring-data)
-* [Spring Web](https://docs.spring.io/spring-boot/docs/2.6.2/reference/htmlsingle/#boot-features-developing-web-applications)
-* [Thymeleaf](https://docs.spring.io/spring-boot/docs/2.6.2/reference/htmlsingle/#boot-features-spring-mvc-template-engines)
+Код создания таблиц - в файле database.sql. 
+Хранение данных - в БД Postgres
 
-### Guides
 
-The following guides illustrate how to use some features concretely:
+# Swagger: 
+```
+http://localhost:8080/swagger-ui.html
+```
 
-* [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/bookmarks/)
-* [Handling Form Submission](https://spring.io/guides/gs/handling-form-submission/)
+# Переменные окружения:
 
-### Additional Links
+```
+DB_HOST=<хост БД Постгрес>
+DB_PORT=<порт>
+DB_NAME=<название БД>
+DB_USER=<юзер>
+DB_PASS=<пароль>
 
-These additional references should also help you:
+MAX_ROW=<Максимальное количество ресурсов в выдаче>
+```
 
-* [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
 
+# todo list
+- завернуть в докер
+- сделать логи
+- доделать CRUD для /stock-data 
+- порефакторить
