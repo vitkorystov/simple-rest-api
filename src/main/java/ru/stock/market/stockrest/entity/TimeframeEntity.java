@@ -4,6 +4,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "stock_market_timeframes")
-public class TimeframeEntity extends AbstractEntity {
+public class TimeframeEntity extends BaseTickerTimeFrameEntity {
 
 }

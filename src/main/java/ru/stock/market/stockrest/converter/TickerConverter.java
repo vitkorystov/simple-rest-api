@@ -2,25 +2,35 @@ package ru.stock.market.stockrest.converter;
 
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Component;
+import ru.stock.market.stockrest.dto.StockDto;
 import ru.stock.market.stockrest.dto.TickerDto;
+import ru.stock.market.stockrest.entity.StockEntity;
 import ru.stock.market.stockrest.entity.TickerEntity;
 
 @Component
 @Log
-public class TickerConverter extends BaseConverter<TickerEntity, TickerDto> {
+public class TickerConverter extends StockConverter {
 
     @Override
-    public TickerEntity makeEntityFromDto(TickerDto d) {
+    public void makeEntityFromDto(StockDto dto) {
+        TickerDto ticker_dto = (TickerDto) dto;
         TickerEntity entity = new TickerEntity();
-        entity.setId(d.getId());
-        entity.setName(d.getName());
-        entity.setDescription(d.getDescription());
-        return entity;
+        entity.setId(ticker_dto.getId());
+        entity.setName(ticker_dto.getName());
+        entity.setDescription(ticker_dto.getDescription());
+        setEntity(entity);
     }
 
     @Override
-    public TickerDto makeDtoFromEntity(TickerEntity e) {
-        return new TickerDto(e.getId(), e.getName(), e.getDescription());
+    public void makeDtoFromEntity(StockEntity se) {
+        TickerEntity te = (TickerEntity) se;
+        setDto(new TickerDto(te.getId(), te.getName(), te.getDescription()));
+    }
+
+    @Override
+    public TickerDto makeDtoFromEntityStream(StockEntity e) {
+        TickerEntity te = (TickerEntity) e;
+        return new TickerDto(te.getId(), te.getName(), te.getDescription());
     }
 
 }

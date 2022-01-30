@@ -1,9 +1,16 @@
 package ru.stock.market.stockrest.converter;
 
 
-public interface ConverterInterface <Entity, Dto> {
+import ru.stock.market.stockrest.dto.StockDto;
+import ru.stock.market.stockrest.entity.StockEntity;
 
-    Entity makeEntityFromDto(Dto d);
+public interface ConverterInterface {
 
-    Dto makeDtoFromEntity(Entity e);
+    void makeEntityFromDto(StockDto d);
+
+    void makeDtoFromEntity(StockEntity e);
+
+    //StockDto makeDtoFromEntityStream(StockEntity e);
+
+
 }

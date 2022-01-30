@@ -11,10 +11,11 @@ import java.io.Serializable;
 import java.math.BigInteger;
 
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "stock_market_data")
 @Data
-public class StockDataEntity implements Serializable {
+public class StockDataEntity extends StockEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

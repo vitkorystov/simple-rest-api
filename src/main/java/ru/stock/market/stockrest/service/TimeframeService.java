@@ -8,43 +8,28 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.stock.market.stockrest.converter.TimeframeConverter;
 import ru.stock.market.stockrest.dto.TimeframeDto;
+import ru.stock.market.stockrest.entity.StockEntity;
 import ru.stock.market.stockrest.entity.TimeframeEntity;
 import ru.stock.market.stockrest.repository.TimeframesRepository;
 
 
 @Service
 @Log
-public class TimeframeService
-        extends AbstractService <TimeframesRepository, TimeframeConverter>
-        implements ServiceInterface<TimeframeEntity, TimeframeDto> {
+public class TimeframeService extends StockService {
 
+    private final TimeframesRepository repository;
+    private final TimeframeConverter converter;
 
     TimeframeService(TimeframesRepository r, TimeframeConverter c){
         this.repository = r;
         this.converter = c;
     }
 
-    public TimeframeDto save(TimeframeDto dto){
-        TimeframeEntity te = converter.makeEntityFromDto(dto);
-        TimeframeEntity savedEntity = repository.save(te);
-        log.info("saved TimeframeEntity: " + savedEntity);
-        return converter.makeDtoFromEntity(savedEntity);
-    }
-
     public List<TimeframeDto> findAll(){
-        return repository.findAll(PageRequest.of(0, Integer.parseInt(System.getenv("MAX_ROW")),
-                        Sort.by(Sort.Direction.DESC, "id")))
-                .stream()
-                .map(converter::makeDtoFromEntity)
+        PageRequest of = PageRequest.of(0, Integer.parseInt(System.getenv("MAX_ROW")), Sort.by(Sort.Direction.DESC, "id"));
+        return repository.findAll(of)
+                .stream().map(converter::makeDtoFromEntityStream)
                 .collect(Collectors.toList());
-    }
-
-    public TimeframeDto findByName(String name) {
-        TimeframeEntity te = repository.findTimeframeEntityByName(name);
-        if (te == null) {
-            return null;
-        }
-        return converter.makeDtoFromEntity(te);
     }
 
     public TimeframeDto findById(Integer id) {
@@ -52,19 +37,15 @@ public class TimeframeService
         if (te == null) {
             return null;
         }
-        return converter.makeDtoFromEntity(te);
-    }
-
-    public void delete(Integer id) {
-        repository.deleteById(id);
+        converter.makeDtoFromEntity(te);
+        return (TimeframeDto) converter.getDto();
     }
 
     public void update(Integer id, TimeframeDto dto) {
-        TimeframeEntity ticker = repository.findTimeframeEntityById(id);
-        if (ticker != null) {
-            ticker.setName(dto.getName());
-            ticker.setDescription(dto.getDescription());
-            repository.save(ticker);
-        }
+        TimeframeEntity entity = repository.findTimeframeEntityById(id);
+        entity.setName(dto.getName());
+        entity.setDescription(dto.getDescription());
+        repository.save((StockEntity) entity);
     }
+
 }

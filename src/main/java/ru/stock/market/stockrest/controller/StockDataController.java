@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.web.bind.annotation.*;
 import ru.stock.market.stockrest.dto.StockDataDtoSerialized;
-import ru.stock.market.stockrest.service.StockDataService;
+//import ru.stock.market.stockrest.service.StockDataService;
 
 import java.util.List;
-
+/*
 @AllArgsConstructor
 @RestController
 @RequestMapping("/stock-data")
@@ -23,4 +23,4 @@ public class StockDataController extends AbstractController<StockDataService> {
         return  service.findAll();
 
     }
-}
+}*/
