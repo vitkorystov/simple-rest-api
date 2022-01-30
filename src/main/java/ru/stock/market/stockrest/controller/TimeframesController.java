@@ -1,7 +1,6 @@
 package ru.stock.market.stockrest.controller;
 
 import java.util.List;
-import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +12,15 @@ import ru.stock.market.stockrest.service.TimeframeService;
 
 @RestController
 @RequestMapping("/timeframe")
-@AllArgsConstructor
 @Log
 @CrossOrigin
-public class TimeframesController extends AbstractController <TimeframeService> {
+public class TimeframesController extends StockController implements ControllerInterface<TimeframeDto>{
 
-    private final TimeframeService service;
+    protected TimeframeService service;
+
+    TimeframesController(TimeframeService service) {
+        this.service = service;
+    }
 
     @GetMapping("/")
     public List<TimeframeDto> getAll() {
@@ -26,28 +28,10 @@ public class TimeframesController extends AbstractController <TimeframeService> 
         return service.findAll();
     }
 
-    @PostMapping ()
+    @PostMapping()
     public ResponseEntity<Object> save(@RequestBody TimeframeDto dto) {
-        log.info("Handling saving ticker, tickerDto=" + dto);
-        TimeframeDto dto_response = null;
-        try {
-            dto_response = service.save(dto);
-            return ResponseHandler.generateResponse("Timeframe saved successfully!", HttpStatus.CREATED, dto_response);
-        } catch (Exception e) {
-            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, dto_response);
-        }
-    }
-
-
-    @GetMapping("/{name}/name")
-    public ResponseEntity<Object> getByName(@PathVariable String name) {
-        TimeframeDto dto = service.findByName(name);
-        if (dto != null) {
-            log.info("Found ticker with name" + name + ": " + dto);
-            return ResponseHandler.generateResponse("Timeframe with name '" + name + "' exists!", HttpStatus.OK, dto);
-        } else {
-            return ResponseHandler.generateResponse("Timeframe with name '" + name + "' NOT found!", HttpStatus.OK, null);
-        }
+        log.info("Handling saving timeframe, TimeframeDto=" + dto);
+        return process_saving(dto, "Timeframe saved successfully!");
     }
 
     @GetMapping("/{id}/id")
@@ -64,17 +48,18 @@ public class TimeframesController extends AbstractController <TimeframeService> 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         log.info("Handling delete timeframe: " + id);
-        service.delete(id);
-        return ResponseEntity.ok().build();
+        return process_deleting(id);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update (@PathVariable Integer id,
-                                        @RequestBody TimeframeDto dto
-    ) {
-        log.info("PUT: -->    id=" + id + " | tickerDto" + dto);
-        service.update(id, dto);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Void> update (@PathVariable Integer id, @RequestBody TimeframeDto dto) {
+        log.info("PUT: -->    id=" + id + " | timeframeDto" + dto);
+        try {
+            service.update(id, dto);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
 

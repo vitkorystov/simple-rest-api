@@ -4,14 +4,14 @@ import lombok.extern.java.Log;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import ru.stock.market.stockrest.converter.StockDataConverter;
+//import ru.stock.market.stockrest.converter.StockDataConverter;
 import ru.stock.market.stockrest.dto.StockDataDtoSerialized;
 import ru.stock.market.stockrest.repository.StockDataRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+/*
 @Service
 @Log
 public class StockDataService extends AbstractService<StockDataRepository, StockDataConverter> {
@@ -30,3 +30,4 @@ public class StockDataService extends AbstractService<StockDataRepository, Stock
                         .collect(Collectors.toList());
     }
 }
+*/

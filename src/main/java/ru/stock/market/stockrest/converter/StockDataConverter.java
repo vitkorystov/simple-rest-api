@@ -4,14 +4,20 @@ import lombok.extern.java.Log;
 import org.springframework.stereotype.Component;
 import ru.stock.market.stockrest.dto.StockDataDto;
 import ru.stock.market.stockrest.dto.StockDataDtoSerialized;
+import ru.stock.market.stockrest.dto.StockDto;
+import ru.stock.market.stockrest.dto.TickerDto;
 import ru.stock.market.stockrest.entity.StockDataEntity;
+import ru.stock.market.stockrest.entity.StockEntity;
+import ru.stock.market.stockrest.entity.TickerEntity;
+
 
 @Component
 @Log
-public class StockDataConverter extends BaseConverter<StockDataEntity, StockDataDto>{
+public class StockDataConverter extends StockConverter {
 
     @Override
-    public StockDataEntity makeEntityFromDto(StockDataDto d) {
+    public void makeEntityFromDto(StockDto dto) {
+        StockDataDto d = (StockDataDto) dto;
         StockDataEntity entity = new StockDataEntity();
         entity.setId(d.getId());
         entity.setStartDate(d.getStartDate());
@@ -22,12 +28,13 @@ public class StockDataConverter extends BaseConverter<StockDataEntity, StockData
         entity.setLowPrice(d.getLowPrice());
         entity.setClosePrice(d.getLowPrice());
         entity.setVolume(d.getVolume());
-        return entity;
+        setEntity(entity);
     }
 
     @Override
-    public StockDataDto makeDtoFromEntity(StockDataEntity e) {
-        return new StockDataDto(e.getId(),
+    public void makeDtoFromEntity(StockEntity se) {
+        StockDataEntity e = (StockDataEntity) se;
+        setDto(new StockDataDto(e.getId(),
                                 e.getStartDate(),
                                 e.getTickerEntity(),
                                 e.getTimeframeEntity(),
@@ -35,7 +42,7 @@ public class StockDataConverter extends BaseConverter<StockDataEntity, StockData
                                 e.getHighPrice(),
                                 e.getLowPrice(),
                                 e.getClosePrice(),
-                                e.getVolume());
+                                e.getVolume()));
     }
 
     public StockDataDtoSerialized makeDtoResponseFromEntity(StockDataEntity e) {

@@ -4,9 +4,10 @@ import lombok.*;
 import javax.persistence.*;
 
 
+@EqualsAndHashCode(callSuper = true)
 @MappedSuperclass
 @Data
-public abstract class AbstractEntity {
+public class BaseTickerTimeFrameEntity extends StockEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

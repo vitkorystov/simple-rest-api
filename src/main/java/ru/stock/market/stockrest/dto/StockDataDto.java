@@ -3,15 +3,17 @@ package ru.stock.market.stockrest.dto;
 import java.math.BigInteger;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import ru.stock.market.stockrest.entity.TickerEntity;
 import ru.stock.market.stockrest.entity.TimeframeEntity;
 
 
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class StockDataDto {
+public class StockDataDto extends StockDto{
 
     private BigInteger id;
 

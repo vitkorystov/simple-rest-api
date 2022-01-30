@@ -1,14 +1,14 @@
 package ru.stock.market.stockrest.service;
 
+import ru.stock.market.stockrest.dto.StockDto;
+
 import java.util.List;
 
-public interface ServiceInterface <Entity, Dto> {
+public interface ServiceInterface {
 
-    void delete(Integer id);
+    StockDto save(StockDto d);
 
-    Dto save(Dto d);
+    //void delete(Integer id);
 
-    void update(Integer id, Dto d);
 
-    List<Dto> findAll();
 }
